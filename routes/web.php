@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BankController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/certificate', function () {
+    $data = Storage::get('certificate/pubkey-bri.pem');
+
+    dd($data);
+});
+
+Route::post('/generate/token', [AuthController::class, 'token']);
+Route::post('/generate/x-signature', [AuthController::class, 'xSignature']);
+Route::post('/generate/oauth-signature', [AuthController::class, 'oAuthSignature']);
+
+Route::post('/bank-statement', [BankController::class, 'statement']);
